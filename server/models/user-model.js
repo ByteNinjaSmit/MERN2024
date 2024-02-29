@@ -43,11 +43,18 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+// Compare bcrypt password
+
+userSchema.methods.comparePassword = async function (password) {
+  return bcrypt.compare(password, this.password);
+};
+
 // json web token
 
 userSchema.methods.generateToken = async function () {
   try {
-    return jwt.sign({
+    return jwt.sign(
+      {
         userID: this._id.toString(),
         email: this.email,
         isAdmin: this.isAdmin,
