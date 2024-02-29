@@ -13,6 +13,11 @@ const home = async (req, res) => {
   }
 };
 
+// *--------------------------
+// User Registration Logic
+// *--------------------------
+
+
 const register = async (req, res) => {
   try {
     console.log(req.body);
