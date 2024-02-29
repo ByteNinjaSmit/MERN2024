@@ -53,7 +53,6 @@ userSchema.methods.generateToken = async function () {
         isAdmin: this.isAdmin,
       },
       process.env.JWT_SECRET_KEY,
-      // WORLDBESTMERNSERIESBYSMITRAJ,
       {
         expiresIn: "30d",
       }
