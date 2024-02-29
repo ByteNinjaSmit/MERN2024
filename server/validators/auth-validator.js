@@ -26,5 +26,19 @@ const signupSchema = z.object({
     .max(1024, { message: "Password can't be grater than 1024 characters." }),
 });
 
+const logininSchema = z.object({
+    email: z
+    .string({ required_error: "Email is Required" })
+    .trim()
+    .email({message:"Invalid Email address"})
+    .min(3, { message: "email Must be at least of 3 characters. " })
+    .max(255, { message: "email Must not be more than 255 characters. " }),
+    password: z
+    .string({ required_error: "Password is Required" })
+    .trim()
+    .min(7, { message: "Password Must be at least of 6 characters. " })
+    .max(1024, { message: "Password can't be grater than 1024 characters." }),
+});
 
-module.exports=signupSchema;
+
+module.exports={signupSchema,logininSchema};
