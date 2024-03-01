@@ -4,10 +4,12 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { storeTokenInLS } = useAuth();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -27,21 +29,23 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response= await fetch("http://localhost:5000/api/auth/login",{
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
-
       });
-      console.log("Login Form",response);
-      if(response.ok){
+      console.log("Login Form", response);
+      if (response.ok) {
+        const res_data = await response.json();
         alert("Login Successful");
-        setUser({email: "",password: "" });
+        //  save token to local storage and redirect to dashboard
+        storeTokenInLS(res_data.token);
+        // localStorage.setItem("token",res_data);
+        setUser({ email: "", password: "" });
         navigate("/");
-      }
-      else{
+      } else {
         alert("Invalid Credentials");
-        console.log('Invalid Credentials');
+        console.log("Invalid Credentials");
       }
     } catch (error) {
       console.log(user);

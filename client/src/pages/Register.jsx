@@ -4,16 +4,19 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { storeTokenInLS } = useAuth();
   const [user, setUser] = useState({
     username: "",
     email: "",
     phone: "",
     password: "",
   });
+
   // handle input user value
   const handleInput = (e) => {
     console.log(e);
@@ -36,6 +39,10 @@ const Register = () => {
         body: JSON.stringify(user),
       });
       if (response.ok) {
+        const res_data = await response.json();
+        console.log("res from server", res_data);
+        //  save token to local storage and redirect to dashboard
+        storeTokenInLS(res_data.token);
         setUser({ username: "", email: "", phone: "", password: "" });
         navigate("/login");
       }
@@ -48,7 +55,6 @@ const Register = () => {
   const handleReset = () => {
     setUser({ email: "", password: "" });
   };
-
 
   return (
     <>
