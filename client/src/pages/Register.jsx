@@ -28,7 +28,10 @@ const Register = () => {
     e.preventDefault();
     console.log(user);
   }
-
+    // reset form
+    const handleReset = () => {
+      setUser({ email: "", password: "" });
+    };
 
   return (
     <>
@@ -39,17 +42,11 @@ const Register = () => {
           </Col>
           <Col>
             <h1 className="mt-3 mb-1 ">Registration Pgae</h1>
-            <Form className="mt-3" onSubmit={handleSubmit}>
+            <Form className="mt-3" onSubmit={handleSubmit} onReset={handleReset}>
               <Form.Group className="mb-3" controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
-                  type="username"
-                  name="username"
-                  value={user.username}
-                  placeholder="Enter Username"
-                  required
-                  autocomplete="off"
-                  onChange={handleInput}
+
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
