@@ -9,7 +9,8 @@ import Contact from "./pages/Contact";
 import Navbar from "./components/Navbar";
 import Error from "./pages/Error";
 import Footer from "./components/Footer";
-import './App.css';
+import {Logout} from "./pages/Logout";
+import "./App.css";
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
             <Route exact path="/register" element={<Register />} />
             <Route exact path="/service" element={<Service />} />
             <Route exact path="/contact" element={<Contact />} />
+            <Route exact path="/logout" element={<Logout />} />
             <Route path="*" element={<Error />} />
           </Routes>
           <Footer />
