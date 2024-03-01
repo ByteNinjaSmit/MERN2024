@@ -4,8 +4,10 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import {useNavigate} from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -19,19 +21,34 @@ const Register = () => {
     let value = e.target.value;
     setUser({
       ...user,
-      [name]:value,
+      [name]: value,
     });
   };
 
   // handeling form submit
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(user);
-  }
-    // reset form
-    const handleReset = () => {
-      setUser({ email: "", password: "" });
-    };
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+      });
+      if (response.ok) {
+        setUser({ username: "", email: "", phone: "", password: "" });
+        navigate("/login");
+      }
+      console.log(response);
+    } catch (error) {
+      console.log("Register", error);
+    }
+  };
+  // reset form
+  const handleReset = () => {
+    setUser({ email: "", password: "" });
+  };
+
 
   return (
     <>
@@ -42,11 +59,21 @@ const Register = () => {
           </Col>
           <Col>
             <h1 className="mt-3 mb-1 ">Registration Pgae</h1>
-            <Form className="mt-3" onSubmit={handleSubmit} onReset={handleReset}>
+            <Form
+              className="mt-3"
+              onSubmit={handleSubmit}
+              onReset={handleReset}
+            >
               <Form.Group className="mb-3" controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
-
+                  type="username"
+                  name="username"
+                  value={user.username}
+                  placeholder="username"
+                  required
+                  autoComplete="off"
+                  onChange={handleInput}
                 />
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -57,7 +84,7 @@ const Register = () => {
                   value={user.email}
                   placeholder="Enter email"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                   onChange={handleInput}
                 />
               </Form.Group>
@@ -69,7 +96,7 @@ const Register = () => {
                   value={user.phone}
                   placeholder="Phone Number"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                   onChange={handleInput}
                 />
               </Form.Group>
@@ -81,7 +108,7 @@ const Register = () => {
                   value={user.password}
                   placeholder="Password"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                   onChange={handleInput}
                 />
               </Form.Group>
