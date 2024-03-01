@@ -4,8 +4,10 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import {useNavigate} from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -17,14 +19,33 @@ const Login = () => {
     let value = e.target.value;
     setUser({
       ...user,
-      [name]:value,
+      [name]: value,
     });
   };
 
   // handeling form submit
-  const handleSubmit = (e) =>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
+    try {
+      const response= await fetch("http://localhost:5000/api/auth/login",{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user),
+
+      });
+      console.log("Login Form",response);
+      if(response.ok){
+        alert("Login Successful");
+        setUser({email: "",password: "" });
+        navigate("/");
+      }
+      else{
+        alert("Invalid Credentials");
+        console.log('Invalid Credentials');
+      }
+    } catch (error) {
+      console.log(user);
+    }
   };
 
   // reset form
@@ -37,13 +58,15 @@ const Login = () => {
       <Container>
         <Row>
           <Col>
-            <div className="registration-image">
-              
-            </div>
+            <div className="registration-image"></div>
           </Col>
           <Col>
             <h1 className="mt-3 mb-1 ">Login Pgae</h1>
-            <Form className="mt-3" onSubmit={handleSubmit} onReset={handleReset}>
+            <Form
+              className="mt-3"
+              onSubmit={handleSubmit}
+              onReset={handleReset}
+            >
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
                 <Form.Control
