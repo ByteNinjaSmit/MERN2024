@@ -4,23 +4,33 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-
+import { useAuth } from "./../store/auth";
 const Contact = () => {
-
   const [contact, setContact] = useState({
-    username:"",
-    email:"",
-    message:"",
+    username: "",
+    email: "",
+    message: "",
   });
 
+  const [userData, setUserData] = useState(true);
+  const { user } = useAuth();
+
+  if (userData && user) {
+    setContact({
+      username: user.username,
+      email: user.email,
+      message: "",
+    });
+    setUserData(false);
+  }
   // handle input
-  const handleInput= (e) =>{
+  const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
 
     setContact({
       ...contact,
-      [name]:value,
+      [name]: value,
     });
 
     // setContact((prev)=>({
@@ -29,11 +39,11 @@ const Contact = () => {
     // }));
   };
 
-  const handleSubmit  = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     console.log(contact);
-  }
+  };
 
   return (
     <>
