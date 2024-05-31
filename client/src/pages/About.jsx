@@ -1,8 +1,11 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 // import './assets/about.css'
+import {useAuth} from "../store/auth";
 
-const About = () => {
+
+export const About = () => {
+  const { user } = useAuth();
   return (
     <>
       <style>
@@ -98,6 +101,9 @@ const About = () => {
         <div className="container">
           <div className="row mb-5 justify-content-center">
             <div className="col-12 content-head text-center">
+              <h3 className="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
+                  <strong className="text-truncate fw-bold">Welcome, {user.username}</strong>
+              </h3>
               <h3 className="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
                 <strong className="text-truncate fw-bold">Unleash the Future</strong>
               </h3>

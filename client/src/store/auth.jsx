@@ -14,14 +14,15 @@ export const AuthProvider = ({ children }) => {
   let isLoggedIn = !!token;
   console.log("isLoggedIn", isLoggedIn);
 
-  // Logout Function
+  // Tackeling The Logout Functionality
   const LogoutUser = () => {
     setToken("");
     return localStorage.removeItem("token");
   };
 
-  // JWT AUTONTICATION - to get current logged in user data
+  // JWT AUTONTICATION - to get current loggedIn user data
   const userAuthentication = async () => {
+    if (!token) return;
     try {
       const response = await fetch("http://localhost:5000/api/auth/user", {
         method: "GET",
@@ -31,8 +32,9 @@ export const AuthProvider = ({ children }) => {
       });
       if (response.ok) {
         const data = await response.json();
+        console.log("User Data: ",data.userData);
         setUser(data.userData);
-      }
+      } 
     } catch (error) {
       console.log("error fetching user data");
     }

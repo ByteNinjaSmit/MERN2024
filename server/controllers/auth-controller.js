@@ -76,7 +76,7 @@ const login = async (req, res) => {
 };
 
 // *--------------------------
-// to send User data Logic
+// to send User data Logic - User Data
 // *--------------------------
 
 const user = async (req, res) => {

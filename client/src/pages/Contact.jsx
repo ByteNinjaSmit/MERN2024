@@ -67,7 +67,7 @@ const Contact = () => {
                   placeholder="Enter Username"
                   onChange={handleInput}
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </Form.Group>
               <Form.Group
