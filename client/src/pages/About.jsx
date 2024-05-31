@@ -101,8 +101,10 @@ export const About = () => {
         <div className="container">
           <div className="row mb-5 justify-content-center">
             <div className="col-12 content-head text-center">
-              <h3 className="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
-                  <strong className="text-truncate fw-bold">Welcome, {user.username}</strong>
+            <h3 className="mbr-section-title mbr-fonts-style align-center mb-0 display-2 text-center" style={{ fontSize: '20px' }}>
+              <strong className="text-truncate fw-bold text-center">
+                  Welcome, {user ? `${user.username} to our website` : 'to Our Website'}
+              </strong>
               </h3>
               <h3 className="mbr-section-title mbr-fonts-style align-center mb-0 display-2">
                 <strong className="text-truncate fw-bold">Unleash the Future</strong>

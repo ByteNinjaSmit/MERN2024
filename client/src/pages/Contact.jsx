@@ -5,12 +5,15 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useAuth } from "./../store/auth";
+
+const defaultContactFormData={
+  username: "",
+  email: "",
+  message: "",
+}
+
 const Contact = () => {
-  const [contact, setContact] = useState({
-    username: "",
-    email: "",
-    message: "",
-  });
+  const [contact, setContact] = useState(defaultContactFormData);
 
   const [userData, setUserData] = useState(true);
   const { user } = useAuth();
@@ -39,10 +42,29 @@ const Contact = () => {
     // }));
   };
 
-  const handleSubmit = (e) => {
+  // Handle form GetFormSubissionInfo
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/form/contact",{
+        method:"POST",
+        headers:{
+          'Content-Type':"application/json"
+        },
+        body:JSON.stringify(contact)
+      });
+      if(response.ok){
+        setContact(defaultContactFormData);
+        const data = await response.json();
+        console.log(data);
+        alert("Form Submitted Successfully");
+      }
+    } catch (error) {
+      alert("Form Submission Failed");
+      console.log(error);
+    }
 
-    console.log(contact);
   };
 
   return (
