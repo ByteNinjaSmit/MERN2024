@@ -6,6 +6,8 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../store/auth";
+import { toast } from 'react-toastify';
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,16 +37,17 @@ const Login = () => {
         body: JSON.stringify(user),
       });
       console.log("Login Form", response);
+      const res_data = await response.json();
       if (response.ok) {
-        const res_data = await response.json();
-        alert("Login Successful");
-        //  save token to local storage and redirect to dashboard
+        
+        toast.success("Login Successful");
+        //  save token to local sto rage and redirect to dashboard
         storeTokenInLS(res_data.token);
         // localStorage.setItem("token",res_data);
         setUser({ email: "", password: "" });
         navigate("/");
       } else {
-        alert("Invalid Credentials");
+        toast.error(res_data.extraDetails ? res_data.extraDetails : res_data.message);
         console.log("Invalid Credentials");
       }
     } catch (error) {
@@ -65,7 +68,7 @@ const Login = () => {
             <div className="registration-image"></div>
           </Col>
           <Col>
-            <h1 className="mt-3 mb-1 ">Login Pgae</h1>
+            <h1 className="mt-3 mb-1 ">Login Page</h1>
             <Form
               className="mt-3"
               onSubmit={handleSubmit}
