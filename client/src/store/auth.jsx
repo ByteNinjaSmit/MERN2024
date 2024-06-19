@@ -5,9 +5,10 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState("");
+  const [isLoading,setIsLoading] = useState(true);
   const [services, setServices] = useState("");
   const authorizationToken = `Bearer ${token}`;
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const storeTokenInLS = (serverToken) => {
     setToken(serverToken);
     return localStorage.setItem("token", serverToken);
@@ -16,16 +17,25 @@ export const AuthProvider = ({ children }) => {
   // Logged in
   let isLoggedIn = !!token;
   console.log("isLoggedIn", isLoggedIn);
+  
+  // isAdmin Functionnality 
+  // const isAdmin = () => {
+  //   return user.isAdmin === true && !!token && isLoggedIn;
+  // };
+
   // Tackeling The Logout Functionality
   const LogoutUser = () => {
-    setToken("");
-    return localStorage.removeItem("token");
+    setToken(null);
+    setUser(null);
+    setIsAdmin(false);
+    localStorage.removeItem("token");
   };
 
   // JWT AUTONTICATION - to get current loggedIn user data
   const userAuthentication = async () => {
     if (!token) return;
     try {
+      setIsLoading(true);
       const response = await fetch("http://localhost:5000/api/auth/user", {
         method: "GET",
         headers: {
@@ -36,7 +46,12 @@ export const AuthProvider = ({ children }) => {
         const data = await response.json();
         // console.log("User Data: ",data.userData);
         setUser(data.userData);
-      } 
+        setIsAdmin(data.userData.isAdmin);
+        setIsLoading(false);
+      }else{
+        console.error("Error fetching user data");
+        setIsLoading(false);
+      }
     } catch (error) {
       console.log("error fetching user data");
     }
@@ -59,8 +74,20 @@ export const AuthProvider = ({ children }) => {
       console.log(`services frontend error: ${error}`);
     }
   }
-
-
+  useEffect(() => {
+    if (user && user.isAdmin) {
+      setIsAdmin(true);
+    } else {
+      setIsAdmin(false);
+    }
+  }, [user]);
+  useEffect(() => {
+    if (token) {
+      userAuthentication();
+    } else {
+      setIsLoading(false);
+    }
+  }, [token]);
   useEffect(() => {
     getServices();
     userAuthentication();
@@ -68,7 +95,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, storeTokenInLS, LogoutUser, user, services,authorizationToken }}
+      value={{ isLoggedIn, storeTokenInLS, LogoutUser, user, services,authorizationToken, isLoading, isAdmin,}}
     >
       {children}
     </AuthContext.Provider>

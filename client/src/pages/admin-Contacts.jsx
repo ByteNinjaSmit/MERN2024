@@ -47,7 +47,7 @@ export const AdminContacts = () => {
     })
     return (
         <>
-            <h1>Admin Contacts Panel</h1>
+            <h1 className="w-100 text-center mt-3">Admin Contacts Panel</h1>
             <table className="table table-hover table-striped table-dark table-bordered w-75 mx-auto mt-3 text-center ">
                 <thead>
                     <tr>

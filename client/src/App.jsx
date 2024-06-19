@@ -13,7 +13,7 @@ import {Logout} from "./pages/Logout";
 import "./App.css";
 import { AdminLayout } from "./components/layouts/Admin-Layout";
 import { AdminUsers } from "./pages/Admin-Users";
-import { AdminContacts } from "./pages/admin-Contacts";
+import { AdminContacts } from "./pages/Admin-Contacts";
 import { AdminUpdate } from "./pages/Admin-Update";
 
 

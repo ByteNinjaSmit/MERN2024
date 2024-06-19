@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Container from "react-bootstrap/Container";
@@ -10,8 +10,13 @@ import { useAuth } from "../store/auth";
 
 const ColorSchemesExample = () => {
   const location = useLocation();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user, isAdmin } = useAuth();
+  const [isAdminState, setIsAdminState] = useState(isAdmin);
 
+  useEffect(() => {
+    setIsAdminState(isAdmin);
+  }, [isAdmin]);
+  
   return (
     <>
       <Navbar expand="lg" className="bg-dark navbar-dark ">
@@ -91,6 +96,19 @@ const ColorSchemesExample = () => {
                   Register
                 </Link>
               )}
+              {isAdmin && isAdminState ? (
+                <Link
+                  style={{
+                    fontSize: location.pathname === "/admin" ? "16px" : "white",
+                    color: location.pathname === "/admin" ? "gray" : "white",
+                    textDecoration: "none",
+                    padding: "5px 12px",
+                  }}
+                  to="/admin"
+                >
+                  Admin Panel
+                </Link>
+              ) : null}
             </Nav>
             {isLoggedIn ? (
               <Link to="/logout">

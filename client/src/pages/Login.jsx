@@ -36,7 +36,7 @@ const Login = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
       });
-      console.log("Login Form", response);
+      // console.log("Login Form", response);
       const res_data = await response.json();
       if (response.ok) {
         
