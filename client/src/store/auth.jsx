@@ -17,13 +17,8 @@ export const AuthProvider = ({ children }) => {
   // Logged in
   let isLoggedIn = !!token;
   console.log("isLoggedIn", isLoggedIn);
-  
-  // isAdmin Functionnality 
-  // const isAdmin = () => {
-  //   return user.isAdmin === true && !!token && isLoggedIn;
-  // };
 
-  // Tackeling The Logout Functionality
+  //Logout Functionality
   const LogoutUser = () => {
     setToken(null);
     setUser(null);
@@ -65,7 +60,7 @@ export const AuthProvider = ({ children }) => {
       if(response.ok){
         const data = await response.json();
         // console.log(data.msg);
-        setServices(data);
+        setServices(data.msg);
       }else {
         console.log("Error fetching services:", response.status);
       }
@@ -74,13 +69,6 @@ export const AuthProvider = ({ children }) => {
       console.log(`services frontend error: ${error}`);
     }
   }
-  useEffect(() => {
-    if (user && user.isAdmin) {
-      setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
-    }
-  }, [user]);
   useEffect(() => {
     if (token) {
       userAuthentication();

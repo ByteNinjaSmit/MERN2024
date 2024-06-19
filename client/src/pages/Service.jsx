@@ -6,6 +6,7 @@ export const Service = () => {
   // console.log(services);
 
   // If services is undefined or not an array, provide a fallback
+  // console.log(services);
   if (!Array.isArray(services)) {
     return <div>Loading services...</div>;
   }

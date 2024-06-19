@@ -10,7 +10,7 @@ import { useAuth } from "../store/auth";
 
 const ColorSchemesExample = () => {
   const location = useLocation();
-  const { isLoggedIn, user, isAdmin } = useAuth();
+  const { isLoggedIn, isAdmin } = useAuth();
   const [isAdminState, setIsAdminState] = useState(isAdmin);
 
   useEffect(() => {
