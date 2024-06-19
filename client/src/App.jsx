@@ -14,6 +14,7 @@ import "./App.css";
 import { AdminLayout } from "./components/layouts/Admin-Layout";
 import { AdminUsers } from "./pages/Admin-Users";
 import { AdminContacts } from "./pages/admin-Contacts";
+import { AdminUpdate } from "./pages/Admin-Update";
 
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="users" element={<AdminUsers />} />
               <Route path="contacts" element={<AdminContacts />} />
+              <Route path="users/:id/edit" element={<AdminUpdate />} />
             </Route>
           </Routes>
           <Footer />
